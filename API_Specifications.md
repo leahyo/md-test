@@ -220,12 +220,6 @@ JSON
 }
 ```
 
-XML
-
-```
-Not supported
-```
-
 **Error Response**
 
 There are no error status' specific to the volumes API
@@ -410,8 +404,6 @@ JSON
 
 **Success Response**
 
-*[Specify the status code and any content that is returned.]*
-
 **Status Code**
 
 200 - OK
@@ -441,8 +433,6 @@ JSON
 ```
 
 **Error Response**
-
-*[Enumerate all the possible error status codes and any content that is returned.]*
 
 **Status Code**
 
