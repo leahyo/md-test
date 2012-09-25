@@ -154,9 +154,13 @@ None.
 
 
 #### 4.4.1.1 List volumes
-#### GET /v1.1/<Tennant Id>/os-volumes
+#### GET /v1.1/\<Tennant Id\>/os-volumes
 
-Get a list of the volumes associated with the specified tennant id. If the attribute 'ImageRef' has a non empty string as its value then the volume is a bootable volume, and the value of 'ImageRef' is the Glance image id, this feature has not yet been implemented. The attribute 'availabilityZone' does not correspond to HP Cloud availability zones.
+Get a list of the volumes associated with the specified tennant id. If 
+the attribute 'ImageRef' has a non empty string as its value then the volume 
+is a bootable volume, and the value of 'ImageRef' is the Glance image id, 
+this feature has not yet been implemented. The attribute 'availabilityZone' 
+does not correspond to HP Cloud availability zones.
 
 **Request Data**
 
@@ -259,6 +263,222 @@ curl -i -H "X-Auth-Token: <Auth_Token>" [BaseUri]/os-volumes
 **Additional Notes**
 
 None
+
+
+---
+#### 4.4.1.2 List the details for a specified volume.
+#### GET /v1.1/\<Tennant Id\>/os-volumes/\<Volume Id\>
+
+Returns the details for the volume specified by *Volume Id*
+
+**Request Data**
+
+None
+
+**URL Parameters**
+
+None
+
+**Data Parameters**
+
+None
+
+This call does not require a request body
+
+
+
+**Success Response**
+
+**Status Code**
+
+200 - OK
+
+**Response Data**
+
+JSON
+
+```
+{
+    "volume": [
+        {
+            "status": "available",
+            "displayDescription": null,
+            "availabilityZone": "nova-zone",
+            "displayName": "VOLUME-4-929012.2012-08-20 04:57:53",
+            "attachments": [{}],
+            "volumeType": "None",
+            "snapshotId": "",
+            "imageRef": "",
+            "size": 5,
+            "id": 33688,
+            "createdAt": "2012-08-20 04:58:18",
+            "metadata": {"contents": "junk"}
+        }
+}
+```
+
+
+**Error Response**
+
+**Status Code**
+
+500 - Internal Server Error
+
+**Response Data**
+
+JSON
+
+```
+{"cloudServersFault": {"message": "Server Error, please try again later.", "code": 500}}
+```
+**Status Code**
+
+404 - Not Found
+
+**Response Data**
+
+JSON
+
+```
+{"itemNotFound": {"message": "The resource could not be found.", "code": 404}}
+```
+
+
+**Curl Example**
+
+```
+curl -i -H "X-Auth-Token: <Auth_Token>" [BaseUri]/os-volumes/[VolumeId]
+```
+
+**Additional Notes**
+
+None
+
+
+---
+#### 4.4.1.3 Create a volume.
+#### POST /1.1/\<Tennant Id\>/os-volumes
+
+Create a new volume for the specified tenant id. If the snapshot_id 
+attribute is not null then the volume is created as a copy of the 
+specified snapshot. If the imageRef parameter is not null then a bootable 
+volume is created. The attribute 'availabilityZone' does not correspond 
+to HP Cloud availability zones.
+
+The attribute **imageRef** has not yet been implemented.
+
+The request is invalid if both the snapshot_id and the imageRef parameters 
+are specified and are not null.
+
+**Request Data**
+
+The request body specifies the size and some display information for the 
+volume to be created in attribute value pairs.
+
+**URL Parameters**
+
+None
+
+**Data Parameters**
+
+* *snapshot_id* (Optional) - String - The id of a snapshot from which to create the volume
+* *display_name* (Optional) - String - User defined name for the volume
+* *display_description* (Optional) - String - User supplied description for the volume
+* *imageRef* (Optional) - String - The id of a Glance image from which to create the volume, this parameter is not yet supported
+* *metadata* (Optional) - String - User supplied data
+* *availability_zone* (Optional) - String - The nova zone
+* *volume_type* (Optional) - String - The volume type, this parameter is currently ignored
+* *size* (Required) - Integer - The size of the volume to create, in GBytes
+
+
+JSON
+
+```
+{
+    "volume": {
+        "snapshot_id": null,
+        "display_name": "Test Volume 3",
+        "display_description": "Test volume",
+        "size": 1,
+        "metadata": {"contents": "junk"},
+        "availability_zone": "nova-zone",
+        "volume_type": "None",
+        "imageRef": "3"
+    }
+}
+```
+
+**Success Response**
+
+*[Specify the status code and any content that is returned.]*
+
+**Status Code**
+
+200 - OK
+
+**Response Data**
+
+JSON
+
+```
+
+{
+    "volume": {
+        "status": "creating",
+        "displayDescription": "Test volume",
+        "availabilityZone": "nova",
+        "displayName": "Test Volume 3",
+        "attachments": [{}],
+        "volumeType": "None",
+        "snapshotId": null,
+        "image_id": "3"
+        "size": 1,
+        "id": "2343",
+        "createdAt": "2012-08-21 13:55:48",
+        "metadata": {}
+    }
+}
+```
+
+**Error Response**
+
+*[Enumerate all the possible error status codes and any content that is returned.]*
+
+**Status Code**
+
+500 - Internal Server Error
+
+**Response Data**
+
+JSON
+
+```
+{"cloudServersFault": {"message": "Server Error, please try again later.", "code": 500}}
+```
+
+**Status Code**
+
+413 - Internal Server Error
+
+**Response Data**
+
+JSON
+
+```
+{"OverLimit": {"message": "Volume quota exceeded. You cannot create a volume of size 10G.", "code": 413}}
+```
+
+
+**Curl Example**
+
+```
+curl -i -H "X-Auth-Token: <Auth_Token>" [BaseUri][path]
+```
+
+**Additional Notes**
+
+*[Specify any inconsistencies, ambiguities, issues, commentary or discussion relevant to the call.]*
+
 
 
 ---
