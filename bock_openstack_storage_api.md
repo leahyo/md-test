@@ -1261,8 +1261,12 @@ XML
 
 JSON
 
-    {"cloudServersFault": {"message": "Server Error, please try again later.",
-"code": 500}}
+    {
+        "cloudServersFault": {
+            "message": "Server Error, please try again later.",
+            "code": 500
+        }
+    }
 
 XML
 
@@ -1435,8 +1439,12 @@ XML
 
 JSON
 
-    {"cloudServersFault": {"message": "Server Error, please try again later.",
-"code": 500}}
+    {
+        "cloudServersFault": {
+            "message": "Server Error, please try again later.",
+            "code": 500
+        }
+    }
 
 XML
 
@@ -1488,8 +1496,12 @@ This operation does not return a response body.
 
 JSON
 
-    {"cloudServersFault": {"message": "Server Error, please try again later.",
-"code": 500}}
+    {
+        "cloudServersFault": {
+            "message": "Server Error, please try again later.",
+            "code": 500
+        }
+    }
 
 XML
 
